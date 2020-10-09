@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<!-- 生成分类 -->
+	<category>
+
+		<category dictKey="springcloud-xmf" dictValue="springcloud-xmf-接口版">
+			<template>springcloud_xmf/controller.xml</template>
+			<template>springcloud_xmf/dao.xml</template>
+			<template>springcloud_xmf/entity.xml</template>
+			<template>springcloud_xmf/request_entity.xml</template>
+			<template>springcloud_xmf/mapper.xml</template>
+			<template>springcloud_xmf/helperservice.xml</template>
+			<template>springcloud_xmf/i_service.xml</template>
+			<template>springcloud_xmf/service_impl.xml</template>
+			<template>springcloud_xmf/server_controller.xml</template>
+			<template>springcloud_xmf/rpc_service.xml</template>
+			<template>springcloud_xmf/fallback_factory.xml</template>
+		</category>
+
+		<category dictKey="springcloud" dictValue="springcloud-2.0-接口版">
+			<template>springcloud/controller.xml</template>
+			<template>common/dao.xml</template>
+			<template>common/entity.xml</template>
+			<template>common/mapper.xml</template>
+			<template>common/service.xml</template>
+			<template>common/rpc-service.xml</template>
+			<template>common/server-helper-service.xml</template>
+			<template>common/api-helper-service.xml</template>
+		</category>
+
+		<category dictKey="springcloud_open" dictValue="springcloud-open-接口版">
+			<template>springcloud_open/controller.xml</template>
+			<template>common/dao.xml</template>
+			<template>common/entity.xml</template>
+			<template>common/mapper.xml</template>
+			<template>common/service.xml</template>
+			<template>common/helper_service</template>
+			<template>common/rpc-service.xml</template>
+			<template>common/server-helper-service.xml</template>
+			<template>common/api-helper-service.xml</template>
+		</category>
+
+
+		<category dictKey="springcloud-clab" dictValue="springcloud-clab-接口版">
+			<template>springcloud_clab/controller.xml</template>
+			<template>springcloud_clab/dao.xml</template>
+			<template>springcloud_clab/entity.xml</template>
+			<template>springcloud_clab/request_entity.xml</template>
+			<template>springcloud_clab/mapper.xml</template>
+			<template>springcloud_clab/helperservice.xml</template>
+			<template>springcloud_clab/i_service.xml</template>
+			<template>springcloud_clab/service_impl.xml</template>
+			<template>springcloud_clab/manager.xml</template>
+			<template>springcloud_clab/server_controller.xml</template>
+			<template>springcloud_clab/rpc_service.xml</template>
+			<template>springcloud_clab/service_fallback.xml</template>
+		</category>
+
+		<category dictKey="job_admin" dictValue="job-admin-自给数据">
+			<template>job_admin/controller.xml</template>
+			<template>job_admin/service.xml</template>
+			<template>common/dao.xml</template>
+			<template>common/entity.xml</template>
+			<template>common/mapper.xml</template>
+			<template>common/service.xml</template>
+			<template>common/server-helper-service.xml</template>
+			<template>common/api-helper-service.xml</template>
+			<template>common/job-admin-page-index.xml</template>
+			<template>common/job-admin-page-index-js.xml</template>
+		</category>
+
+		<category dictKey="job_admin_ms" dictValue="job-admin-微服务数据">
+			<template>job_admin_ms/controller.xml</template>
+			<template>job_admin_ms/iservice.xml</template>
+			<template>common/dao.xml</template>
+			<template>common/entity.xml</template>
+			<template>common/mapper.xml</template>
+			<template>common/service.xml</template>
+			<template>common/rpc-service.xml</template>
+			<template>common/server-helper-service.xml</template>
+			<template>common/api-helper-service.xml</template>
+			<template>common/job-admin-page-index.xml</template>
+			<template>common/job-admin-page-index-js.xml</template>
+		</category>
+
+		<category dictKey="zjgf-microservice" dictValue="zjgf_微服务数据">
+			<template>zjgf-microservice/controller.xml</template>
+			<template>common/dao.xml</template>
+			<template>common/entity.xml</template>
+			<template>common/mapper.xml</template>
+			<template>common/service.xml</template>
+			<template>common/rpc-service.xml</template>
+			<template>common/server-helper-service.xml</template>
+			<template>common/api-helper-service.xml</template>
+		</category>
+		<category dictKey="weier" dictValue="weier">
+			<template>weier/controller.xml</template>
+			<template>weier/dao.xml</template>
+			<template>weier/dto.xml</template>
+			<template>weier/entity.xml</template>
+			<template>weier/iservice.xml</template>
+			<template>weier/mapper.xml</template>
+			<template>weier/query.xml</template>
+			<template>weier/restservice.xml</template>
+			<template>weier/service.xml</template>
+		</category>
+		<category dictKey="siyu" dictValue="siyu">
+			<template>siyu/controller.xml</template>
+			<template>siyu/dao.xml</template>
+			<template>siyu/dto.xml</template>
+			<template>siyu/entity.xml</template>
+			<template>siyu/iservice.xml</template>
+			<template>siyu/mapper.xml</template>
+			<template>siyu/query.xml</template>
+			<template>siyu/restservice.xml</template>
+			<template>siyu/service.xml</template>
+		</category>
+
+		<category dictKey="curd" dictValue="普通单体应用-single">
+			<template>single/curd/controller.xml</template>
+			<template>single/curd/service.xml</template>
+			<template>single/curd/iservice.xml</template>
+			<template>category-ref:dao</template>
+			<template>single/curd/editpage.xml</template>
+			<template>single/curd/listpage.xml</template>
+		</category>
+		<category dictKey="Hibernate" dictValue="Hibernate-admin_xml版">
+			<template>lcAdmin/controller.xml</template>
+			<template>lcAdmin/service.xml</template>
+			<template>lcAdmin/iservice.xml</template>
+			<template>lcAdmin/entity.xml</template>
+			<template>lcAdmin/editpage.xml</template>
+			<template>lcAdmin/addpage.xml</template>
+			<template>lcAdmin/listpage.xml</template>
+			<template>lcAdmin/pagejs.xml</template>
+		</category>
+
+	</category>
+	<!-- java类型 -->
+	<javaType>
+		<dict dictKey="java.lang.String" dictValue="String"/>
+		<dict dictKey="java.lang.Long" dictValue="Long"/>
+		<dict dictKey="java.lang.Integer" dictValue="Integer"/>
+		<dict dictKey="java.lang.Double" dictValue="Double"/>
+		<dict dictKey="java.util.Date" dictValue="Date"/>
+		<dict dictKey="java.time.LocalDateTime" dictValue="LocalDateTime"/>
+		<dict dictKey="java.math.BigDecimal" dictValue="BigDecimal"/>
+	</javaType>
+	<!-- 查询类型 -->
+	<queryType>
+		<dict dictKey="=" dictValue="="/>
+		<dict dictKey="!=" dictValue="!="/>
+		<dict dictKey="between" dictValue="Between"/>
+		<dict dictKey="like" dictValue="Like"/>
+		<dict dictKey="left_like" dictValue="Left Like"/>
+		<dict dictKey="right_like" dictValue="Right Like"/>
+	</queryType>
+	<!-- 字段显示类型 -->
+	<showType>
+		<dict dictKey="input" dictValue="单行文本"/>
+		<dict dictKey="textarea" dictValue="多行文本"/>
+		<dict dictKey="select" dictValue="下拉选项"/>
+		<dict dictKey="radiobox" dictValue="单选按钮"/>
+		<dict dictKey="checkbox" dictValue="复选框"/>
+		<dict dictKey="dateselect" dictValue="日期选择"/>
+	</showType>
+</config>

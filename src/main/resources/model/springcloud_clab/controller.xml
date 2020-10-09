@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>controller</name>
+    <filePath>src/${packageName}/${javaModuleName}/web/controller</filePath>
+    <fileName>${ClassName}Controller.java</fileName>
+    <content><![CDATA[
+package ${packageName}.${javaModuleName}.web.controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import javax.servlet.http.HttpServletRequest;
+import com.alibaba.fastjson.JSONObject;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.request.${javaModuleName}.${ClassName}Requst;
+import ${packageName}.common.model.Partion;
+import ${packageName}.common.model.Response;
+import ${packageName}.common.tools.StringUtil;
+import ${packageName}.${javaModuleName}.service.${ClassName}Service;
+import ${packageName}.${javaModuleName}.manager.${ClassName}Manager;
+/**
+ * ${ClassName}Controller(${functionName})
+ * Controller 层的异常应该统一捕获进行处理，这样业务代码更加清晰
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@RestController
+@RequestMapping("/${subModuleName}")
+@Slf4j
+@SuppressWarnings("all")
+public class ${ClassName}Controller {
+
+	//数据逻辑
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+
+	//业务逻辑
+	@Autowired
+	private ${ClassName}Manager ${className}Manager;
+
+	/**
+	 * getList:(获取${functionName}分页查询接口)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/getList")
+	public Response getList(HttpServletRequest request){
+		Response response =Response.failure("查询失败");
+		JSONObject param =${className}Manager.getListPageParams(request);
+		if(param==null)
+		{
+		   return response;
+		}
+        Partion pt = ${className}Service.getList(param);
+        List<${ClassName}> list = null;
+        long totalCount = 0;
+        if (pt != null) {
+            list = (List<${ClassName}>) pt.getList();
+             totalCount = pt.getTotalCount();
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list", list);
+        jsonObject.put("totalCount", totalCount);
+        if (list == null||list.size()<=0) {
+            response=Response.noData();
+            return response;
+        }
+        response=Response.success(jsonObject);
+        log.info("getList:(获取${functionName}分页查询接口) 结束");
+        return response;
+	}
+
+     /**
+     * get${ClassName}:(查询${functionName}单条数据接口)
+     * @Author ${functionAuthor}
+     * @param request
+     * @param ${className}Requst
+     * @return
+     */
+    @PostMapping("/get${ClassName}")
+    public Response get${ClassName}(${ClassName}Requst ${className}Requst,HttpServletRequest request) {
+        Response response =Response.failure("查询失败");
+        log.info("get${ClassName}:(查询${functionName}单条数据接口) 开始  ${className}Requst={}", ${className}Requst);
+        ${ClassName} ret${className}= ${className}Service.get${ClassName}(${className}Requst);
+        if (${className}Requst==null) {
+            response=Response.noData();
+            return response;
+        }
+        response=Response.success(ret${className});
+        log.info("get${ClassName}:(查询${functionName}单条数据接口) 结束");
+        return response;
+    }
+
+   /**
+	 * save:(保存${functionName}数据接口-id存在则修改，id不存在则插入)
+	 * @Author ${functionAuthor}
+     * @param request
+     * @param ${className}
+     * @return
+	 */
+	@PostMapping("/save")
+    public Response save(${ClassName} ${className},HttpServletRequest request) throws Exception  {
+		Response response =Response.failure("保存失败");
+	    log.info("save:(保存${functionName}数据接口) 开始  ${className}={}", ${className});
+	     if( ${className}==null){
+	        return response;
+	     }
+	    //1、参数校验
+        response=${className}Manager.saveParmsVaild(${className});
+        if (!Response.Status.SUCCEED.getCode().equals(response.getCode())) {
+            return response;
+        }
+        //2、保存数据库
+        ${ClassName} ret =${className}Service.save${ClassName}(${className});
+        if(ret!=null)
+        {
+          response=Response.success(ret);
+        }
+        log.info("save:(保存${functionName}数据接口) 结束");
+        return response;
+	}
+
+}]]>
+    </content>
+</template>

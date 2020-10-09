@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>service</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/service/impl</filePath>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+
+package ${packageName}.${moduleName}.service.impl;
+
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import ${packageName}.${moduleName}.entity.*;
+import ${packageName}.${moduleName}.dao.*;
+import ${packageName}.${moduleName}.service.*;
+import ${packageName}.${moduleName}.dao.impl.*;
+import ${packageName}.common.model.Pagination;
+import ${packageName}.${moduleName}.dao.impl.*;
+import com.chainfin.cft.app.common.service.impl.MicroService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+/**
+ * Service(${functionName})
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ * 调用微服务
+ */
+@Service
+@SuppressWarnings("all")
+public class ${ClassName}Service implements I${ClassName}Service {
+
+	@Resource(name="${className}")
+	private ${ClassName}Dao ${className}Dao;
+	@Autowired
+    private MicroService microService;
+
+	/**
+	 * delete（删除{functionName}数据（逻辑删除））
+	 * @param id
+     * @author ${functionAuthor}
+	 * @return
+	 */
+	public boolean   delete(long id)
+	{
+	    JSONObject object = new JSONObject();
+        object.put("id", id);
+        DataReturn data = microService.post(object, "mzadmin/${subModuleName}/delete", true);
+        if (ResultCode.FAILURE == data.getCode()) {
+            return false;
+        }
+        return true;
+	}
+
+    /**
+	 * save（保存{functionName}数据）
+	 * @param ${className}
+     * @author ${functionAuthor}
+	 * @return
+	 */
+	public DataReturn save(${ClassName} ${className})
+	{
+	    String s = JSONObject.toJSONString(${className});
+        JSONObject object = JSONObject.parseObject(s);
+        DataReturn data = microService.post(object, "mzadmin/${subModuleName}/save", true);
+        return data;
+
+	}
+
+	  /**
+	   * getList（获取{functionName}分页数据）
+	   * @param map
+       * @author ${functionAuthor}
+	   * @return
+	   */
+	   public JqGridOutputVO getList(JSONObject object,int pageNo, int pageSize)
+	   {
+	    JqGridOutputVO vo = new JqGridOutputVO();
+	     if(object==null)
+	     {
+	       return vo;
+	     }
+        object.put("pageNo", pageNo);
+        object.put("pageSize", pageSize);
+        DataReturn ret= microService.post(object, "mzadmin/${subModuleName}/getList", true);
+        if(ret==null)
+        {
+          return vo;
+        }
+        if (ResultCode.FAILURE == ret.getCode() || ret.getData() == null) {
+            return vo;
+        }
+        JSONObject dataObj = (JSONObject) ret.getData();
+        if(dataObj==null)
+        {
+          return vo;
+        }
+        long totalCount = dataObj.getLongValue("totalCount");
+        List<${ClassName}> list=null;
+        if (totalCount > 0) {
+            list = JSONObject.parseArray(dataObj.getString("list"), ${ClassName}.class);
+        }
+        long pageCount = (totalCount + pageSize - 1)/pageSize;
+        vo.setPage((long) pageNo);
+		vo.setRows(list);
+		vo.setRecords(totalCount);
+		vo.setTotal(pageCount);
+		return vo;
+	   }
+
+	 /**
+     * get${ClassName}List（获取{functionName}集合数据，不带分页）
+     * @author ${functionAuthor}
+     * @param map
+     * @return
+     */
+    public List<${ClassName}> get${ClassName}List(${ClassName} ${className}) {
+        String s = JSONObject.toJSONString(${className});
+        JSONObject object = JSONObject.parseObject(s);
+        DataReturn data = microService.post(object, "mzadmin/${subModuleName}/get${ClassName}List", true);
+        if (ResultCode.FAILURE == data.getCode()) {
+            return null;
+        }
+        return (List<${ClassName}>) data.getData();
+    }
+
+     /**
+     * get${ClassName}ById（获取{functionName}单条数据）
+     * @author ${functionAuthor}
+     * @param map
+     * @return
+     */
+    public ${ClassName} get${ClassName}ById(long id) {
+
+        ${ClassName}  ret=null;
+        if(id<1)
+        {
+           return ret;
+        }
+        ${ClassName} ${className}=new ${ClassName}();
+        ${className}.setId(id);
+        String s = JSONObject.toJSONString(${className});
+        JSONObject object = JSONObject.parseObject(s);
+        DataReturn data = microService.post(object, "mzadmin/${subModuleName}/get${ClassName}", true);
+        if (ResultCode.FAILURE == data.getCode()) {
+            return ret;
+        }
+        Object obj=data.getData();
+        if(obj!=null)
+        {
+           ret = JSONObject.parseObject(obj.toString(), ${ClassName}.class);
+        }
+        return ret;
+    }
+
+    /**
+     * get${ClassName}（获取{functionName}单条数据）
+     * @author ${functionAuthor}
+     * @param map
+     * @return
+     */
+    public ${ClassName} get${ClassName}(${ClassName} ${className}) {
+        ${ClassName}  ret=null;
+        if(${className}==null)
+        {
+           return ret;
+        }
+        String s = JSONObject.toJSONString(${className});
+        JSONObject object = JSONObject.parseObject(s);
+        DataReturn data = microService.post(object, "mzadmin/${subModuleName}/get${ClassName}", true);
+        if (ResultCode.FAILURE == data.getCode()) {
+            return ret;
+        }
+        Object obj=data.getData();
+        if(obj!=null)
+        {
+           ret = JSONObject.parseObject(obj.toString(), ${ClassName}.class);
+        }
+        return ret;
+    }
+
+}]]>
+	</content>
+</template>

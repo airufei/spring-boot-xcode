@@ -1,0 +1,91 @@
+#不用配置中心的时候可以使用这个文件读取本地配置文件
+# ==Tomcat配置==#不用配置中心的时候可以使用这个文件读取本地配置文件
+server:
+  port: 8093
+  max-http-header-size: 50MB
+  tomcat:
+    max-connections: 20000 # 最大连接数 表示有多少个socket连接到tomcat上 NIO模式下默认是10000
+    accept-count: 200 # 允许的最大连接数，即等待队列 应大于等于max-threads 默认值75
+    uri-encoding: UTF-8
+    accesslog:
+      enabled: true
+      directory: /opt/logs/x-code/
+      pattern: '%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i" %D'
+    max-http-form-post-size: 50MB
+    threads:
+      max: 2000
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: xcode
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  # 数据源
+  datasource:
+    name: xcode
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 测试库
+    url: jdbc:mysql://192.168.1.1:3306/xcode?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: root
+    password: root
+    initialSize: 10 #连接池初始化大小
+    minIdle: 5 #连接池最小值
+    maxActive: 1000 #连接池最大值
+    maxWait: 10000 #连接等待超时的时间
+    timeBetweenEvictionRunsMillis: 60000 #间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    poolPreparedStatements: false  #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+    validationQuery: select 1 from dual # 验证连接有效与否的SQL，不同的数据配置不同
+    testWhileIdle: true #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    testOnBorrow: true #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 这里建议配置为TRUE，防止取到的连接不可用
+    testOnReturn: false #归还连接时执行validationQuery检测连接是否有效 建议为false
+
+
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    cache: true
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    suffix: .ftl
+    template-loader-path: classpath:/template/
+    settings.template_update_delay: 0
+    settings.default_encoding: UTF-8
+    settings.classic_compatible: true
+    order: 1
+  messages:
+    encoding: utf-8
+  resources:
+    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources
+
+# LOGGING
+logging:
+  config: classpath:logback.xml
+# timeout config
+# myBatis配置
+mybatis:
+  # mybatis主配置文件
+  config-location: classpath:mybatis_config.xml
+
+xmf:
+  xcode:
+    login:
+      webRoot: http://localhost:8093
+    i18n:

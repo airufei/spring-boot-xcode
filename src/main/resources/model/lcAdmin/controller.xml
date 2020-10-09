@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/web/</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.web;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.chainfin.cft.common.jqgrid.strategy2.JqGridProvider;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import ${packageName}.${moduleName}.entity.*;
+import ${packageName}.${moduleName}.service.*;
+import ${packageName}.common.model.Pagination;
+import com.chainfin.cft.common.jqgrid.model.JqGridInputVO;
+import com.chainfin.cft.common.jqgrid.model.JqGridOutputVO;
+import com.chainfin.cft.common.jqgrid.strategy2.JqGridProvider;
+import com.chainfin.cft.common.util.StringUtil;
+import com.chainfin.cft.common.util.AbBaseController;
+/**
+ * ${ClassName}Controller(${functionName})
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Controller
+@RequestMapping(value = "/${subModuleName}/")
+@SuppressWarnings("all")
+public class ${ClassName}Controller extends AbBaseController {
+
+    private static Logger logger = LoggerFactory.getLogger(${ClassName}Controller.class);
+	@Autowired
+	private I${ClassName}Service ${className}Service;
+	
+	@Autowired
+	JqGridProvider jqGridProvider2;
+	
+	/**
+	 * main:(去往查询首页)
+	 * 
+	 * @author rufei
+	 * @return
+	 */
+	@RequestMapping("main.html")
+	public String main(ModelMap m, HttpServletRequest request) {
+		// 角色获取
+		HttpSession session = request.getSession();
+		if (null != session) {
+			String roleName = (String) session.getAttribute("roleName");
+			m.put("roleName", roleName);
+		}
+		return "${modulePageName}/${className}-list";
+	}
+	
+	
+	/**
+	 * indexs:(跳转列表页)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("")
+	public String indexs(HttpServletRequest request,Model model){
+		return "${modulePageName}/${className}-list";
+	}
+	
+	/**
+	 * list:(查询列表数据)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "index.html", headers = "Accept=application/json")
+	public JqGridOutputVO list(JqGridInputVO in,HttpServletRequest request,Model model,HttpServletResponse response, HttpSession httpSession){
+		String roleName = null;
+		Object obj = httpSession.getAttribute("roleName");
+		if (obj != null) {
+			roleName = obj.toString();
+		}
+		${ClassName} ch = new ${ClassName}();
+		int pageNo = 1;
+		int pageSize = 10;
+		String search="";
+		if (in != null) {
+			pageNo = in.getPage().intValue();
+			pageSize = in.getRows().intValue();
+			search=in.getSearch();
+		}
+		Map mp=StringUtil.getParms(search);
+		String parms=JSON.toJSONString(mp);
+		JSONObject jsonObject=JSONObject.parseObject(parms);
+		JqGridOutputVO vo = ${className}Service.getList(jsonObject, pageNo, pageSize);
+		return vo;
+	}
+	
+	
+	/**
+	 * addIndex:(跳转添加页面)
+	 * 
+	 * @author rufei
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("add.html")
+	public String addIndex(ModelMap map) {
+		return "${modulePageName}/${className}-add";
+	}
+	/**
+	 * goEdit:(去往编辑页面-查询编辑所需数据)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/edit")
+	public String goEdit(ModelMap map, @RequestParam("id") Integer id){
+		long newid = 0;
+		${ClassName} entity=null;
+		if(id!=null)
+		{
+		    newid=id;
+		}
+		if (newid>0){
+			entity = ${className}Service.get${ClassName}ById(id);
+		}
+		if (entity == null){
+			entity = new ${ClassName}();
+		}
+		map.put("entity", entity);
+		return "${modulePageName}/${className}-edit";
+	}
+	
+	/**
+	 * delete:(删除数据-逻辑删除)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/delete")
+	public Map delete(@RequestParam("id") Integer id,HttpServletRequest request,ModelMap model){
+	   String msg = "删除成功了";
+		Map result = new HashMap();
+		boolean res = true;
+		try {
+		       if (id>0){
+		          ${className}Service.delete(id);
+		       }else
+		       {
+		         msg = "没有需要删除的数据";
+		         res = false;
+		       }
+		} catch (Exception e) {
+
+			logger.error( "${ClassName}Controller:error===>" + e);
+			msg = "服务器繁忙，请稍后再试";
+			 res = false;
+		} catch (Error e) {
+
+			logger.error("${ClassName}Controller:error===>" + e);
+			msg = "服务器繁忙，请稍后再试";
+			 res = false;
+		}
+		result.put("result", res);
+		result.put("msg", msg);
+		return result;
+	}
+	
+	/**
+	 * save:(保存新增或者编辑的)
+	 * @Author ${functionAuthor}
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/save")
+	public Map save(${ClassName} ${className},HttpServletRequest request, Model model) {
+		String msg = "";
+		Map result = new HashMap();
+		boolean res = true;
+		try {
+			// 无保存内容
+			if (${className} == null) {
+				msg = "无保存内容";
+				res = false;
+			}
+			DataReturn ret = null;
+			if (res) {
+				ret=${className}Service.save(${className});
+			}
+		   if (ret != null && ret.getCode() == 0) {
+                res = true;
+                msg = "成功";
+            } else if (ret != null) {
+                res = false;
+                msg = ret.getMessage();
+            } else {
+                msg = "服务器繁忙，请稍后再试";
+                res = false;
+            }
+
+		} catch (Exception e) {
+
+			logger.error( "${ClassName}Controller:error===>" + e);
+			msg = "服务器繁忙，请稍后再试";
+			 res = false;
+		} catch (Error e) {
+
+			logger.error("${ClassName}Controller:error===>" + e);
+			msg = "服务器繁忙，请稍后再试";
+			res = false;
+		}
+		result.put("result", res);
+		result.put("msg", msg);
+		return result;
+	}
+}]]>
+	</content>
+</template>
