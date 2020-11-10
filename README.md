@@ -25,3 +25,5 @@
 11、model包下的代码（除去model）拷贝到项目的spring-cloud-common com.xx.model下
 
 11、base包下的代码（除去base）拷贝到项目的spring-boot-demo-service com.xmf.service下
+
+## 3 微服务springcloud交流QQ群：908936554
