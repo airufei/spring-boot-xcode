@@ -220,7 +220,7 @@
             element.parent('div').append(error);
         },
         submitHandler: function (form) {
-            $.post(base_url + "/${subModuleName}/save", $("#addModal .form").serialize(), function (data, status) {
+            $.post(base_url + "/${subModuleName}/saveOrUpdate", $("#addModal .form").serialize(), function (data, status) {
                 if (data.code ==200) {
                     $('#addModal').modal('hide');
                     layer.open({

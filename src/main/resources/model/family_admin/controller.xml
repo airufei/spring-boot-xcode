@@ -49,7 +49,7 @@ public class ${ClassName}Controller  {
 	   @ResponseBody
 	   public JSONObject  getList(${ClassName}Requst ${className}Requst)
 	   {
-	      log.info("getList(获取${functionName}带分页数据-服务) 开始 Requst={}", ${className}Requst);
+	      log.info("getList(获取${functionName}带分页数据) 开始 Requst={}", ${className}Requst);
 	       JSONObject retJon = new JSONObject();
           if(${className}Requst==null)
           {
@@ -70,37 +70,15 @@ public class ${ClassName}Controller  {
            return retJon;
 	   }
 
-	   /**
-	   * get${ClassName}List(获取${functionName} 不带分页数据-服务)
-       * @author ${functionAuthor}
-       * @param ${className}Requst 请求参数
-       * @return RetData
-	   */
-	   @RequestMapping("get${ClassName}List")
-	   @ResponseBody
-	   public RetData<List<${ClassName}>>  get${ClassName}List(${ClassName}Requst ${className}Requst)
-	   {
-	      RetData<List<${ClassName}>> retData = RetData.fail();
-          log.info("get${ClassName}List(获取${functionName} server-服务) 开始 parms={}", ${className}Requst);
-          if(${className}Requst==null)
-          {
-             return retData;
-          }
-	      List<${ClassName}> ${className}List=${className}Service.get${ClassName}List(${className}Requst);
-	      retData=RetData.success(${className}List);
-	      log.info("get${ClassName}List(获取${functionName} server-服务) 结束");
-	      return retData;
-	   }
-
 	 /**
-     * saveOrUpdateData (保存或者更新${functionName} 数据-服务)
+     * saveOrUpdate (保存或者更新${functionName} 数据-服务)
      * @param ${className} 保存参数
      * @author ${functionAuthor}
      * @return RetData
      */
-    @RequestMapping("saveOrUpdateData")
+    @RequestMapping("saveOrUpdate")
     @ResponseBody
-    public RetData<${ClassName}> saveOrUpdateData(${ClassName} ${className}){
+    public RetData<${ClassName}> saveOrUpdate(${ClassName} ${className}){
         RetData<${ClassName}> retData = RetData.fail();
         log.info("save (保存${functionName} server-服务) 开始 ${className}={}", ${className});
         if (${className} == null) {
@@ -116,13 +94,13 @@ public class ${ClassName}Controller  {
             ${className}.setId(${className}.getId());
             retData = RetData.success(${className});
         }
-        log.info("save (保存小程序用户信息 server-服务) 结束");
+        log.info("save (保存${functionName}) 结束");
         return retData;
     }
 
 
 	   /**
-	   * get${ClassName}(获取${functionName}单条数据-服务)
+	   * get${ClassName}(获取${functionName}单条数据)
 	   * @author ${functionAuthor}
 	   * @param ${className}Requst 请求参数
 	   * @return RetData
@@ -132,7 +110,7 @@ public class ${ClassName}Controller  {
 	   public RetData<${ClassName}>  get${ClassName}(${ClassName}Requst ${className}Requst)
 	   {
 	       RetData<${ClassName}> retData = RetData.fail();
-           log.info("get${ClassName}(获取${functionName}server-服务) 开始 parms={}", ${className}Requst);
+           log.info("get${ClassName}(获取${functionName}) 开始 parms={}", ${className}Requst);
            if(${className}Requst==null)
            {
              return retData;
@@ -152,7 +130,7 @@ public class ${ClassName}Controller  {
 	  @ResponseBody
 	 public RetData<${ClassName}> get${ClassName}ById (long id){
 	   RetData<${ClassName}> retData = RetData.fail();
-	   log.info("get${ClassName}ById(获取${functionName}server-服务) 开始 id={}", id);
+	   log.info("get${ClassName}ById(获取${functionName}) 开始 id={}", id);
 	   if(id<0)
         {
             return retData;
@@ -163,7 +141,7 @@ public class ${ClassName}Controller  {
 	  }
 
     /**
-	 * delete(逻辑删除${functionName}数据-服务)
+	 * delete(逻辑删除${functionName}数据)
 	 * @param id 主键Id
 	 * @author ${functionAuthor}
 	 * @return RetData
@@ -173,7 +151,7 @@ public class ${ClassName}Controller  {
 	 public RetData<String> delete(Long id)
 	 {
 	    RetData<String> retData = RetData.fail();
-	    log.info("delete(逻辑删除${functionName}server-服务) 开始 id={}", id);
+	    log.info("delete(逻辑删除${functionName}) 开始 id={}", id);
         boolean isSuccess = false;
         if (id==null||id<0) {
             return retData;
@@ -187,7 +165,7 @@ public class ${ClassName}Controller  {
 	    if (isSuccess) {
             retData = RetData.success();
         }
-        log.info("delete(逻辑删除${functionName}server-服务)结束 id={},retData={}", id, retData);
+        log.info("delete(逻辑删除${functionName})结束 id={},retData={}", id, retData);
         return retData;
 	 }
 }]]>
