@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 import ${packageName}.${javaModuleName}.entity.${ClassName};
 import ${packageName}.${javaModuleName}.request.${ClassName}Requst;
 import ${packageName}.${javaModuleName}.service.${ClassName}Service;
@@ -27,13 +27,18 @@ import ${packageName}.${javaModuleName}.service.${ClassName}Service;
  * service 层的异常应该统一捕获进行处理，这样业务代码更加清晰
  * @version ${functionVersion}
  */
-@RestController
-@RequestMapping("/${subModuleName}/")
+@Controller
+@RequestMapping("/${subModuleName}")
 @Slf4j
 public class ${ClassName}Controller  {
 
 	@Autowired
 	private ${ClassName}Service ${className}Service;
+
+    @RequestMapping
+    public String index() {
+         return "${modulePageName}/${className}-index";
+    }
       /**
 	   * getList(获取${functionName}带分页数据-服务)
        * @author ${functionAuthor}
@@ -41,6 +46,7 @@ public class ${ClassName}Controller  {
        * @return Partion<${ClassName}Vo>
 	   */
 	   @RequestMapping("getList")
+	   @ResponseBody
 	   public JSONObject  getList(${ClassName}Requst ${className}Requst)
 	   {
 	      log.info("getList(获取${functionName}带分页数据-服务) 开始 Requst={}", ${className}Requst);
@@ -71,7 +77,8 @@ public class ${ClassName}Controller  {
        * @return RetData
 	   */
 	   @RequestMapping("get${ClassName}List")
-	   public RetData<List<${ClassName}>>  get${ClassName}List(@RequestBody ${ClassName}Requst ${className}Requst)
+	   @ResponseBody
+	   public RetData<List<${ClassName}>>  get${ClassName}List(${ClassName}Requst ${className}Requst)
 	   {
 	      RetData<List<${ClassName}>> retData = RetData.fail();
           log.info("get${ClassName}List(获取${functionName} server-服务) 开始 parms={}", ${className}Requst);
@@ -92,7 +99,8 @@ public class ${ClassName}Controller  {
      * @return RetData
      */
     @RequestMapping("saveOrUpdateData")
-    public RetData<${ClassName}> saveOrUpdateData(@RequestBody ${ClassName} ${className}){
+    @ResponseBody
+    public RetData<${ClassName}> saveOrUpdateData(${ClassName} ${className}){
         RetData<${ClassName}> retData = RetData.fail();
         log.info("save (保存${functionName} server-服务) 开始 ${className}={}", ${className});
         if (${className} == null) {
@@ -120,7 +128,8 @@ public class ${ClassName}Controller  {
 	   * @return RetData
 	   */
 	   @RequestMapping("get${ClassName}")
-	   public RetData<${ClassName}>  get${ClassName}(@RequestBody ${ClassName}Requst ${className}Requst)
+	   @ResponseBody
+	   public RetData<${ClassName}>  get${ClassName}(${ClassName}Requst ${className}Requst)
 	   {
 	       RetData<${ClassName}> retData = RetData.fail();
            log.info("get${ClassName}(获取${functionName}server-服务) 开始 parms={}", ${className}Requst);
@@ -140,6 +149,7 @@ public class ${ClassName}Controller  {
 	  * @return RetData
 	  */
 	  @RequestMapping("get${ClassName}ById")
+	  @ResponseBody
 	 public RetData<${ClassName}> get${ClassName}ById (long id){
 	   RetData<${ClassName}> retData = RetData.fail();
 	   log.info("get${ClassName}ById(获取${functionName}server-服务) 开始 id={}", id);
@@ -159,6 +169,7 @@ public class ${ClassName}Controller  {
 	 * @return RetData
 	 */
      @RequestMapping("delete")
+     @ResponseBody
 	 public RetData<String> delete(Long id)
 	 {
 	    RetData<String> retData = RetData.fail();

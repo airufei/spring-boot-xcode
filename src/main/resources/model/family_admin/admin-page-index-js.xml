@@ -169,7 +169,7 @@
         var row = tableData['key' + id];
         if (row != null && row != undefined) {
          <#list colList as c>
-		 <#if (c.isEditPage?? && c.isEditPage == "1")>
+		 <#if (c.isEditpage?? && c.isEditpage == "1")>
            $("#addModal .form input[name='${c.javaFieldId}']").val(row.${c.javaFieldId});
          </#if>
          </#list>
@@ -193,7 +193,7 @@
         focusInvalid: true,
         rules: {
       <#list colList as c>
-		 <#if (c.isEditPage?? && c.isEditPage == "1")>
+		 <#if (c.isEditpage?? && c.isEditpage == "1")>
             ${c.javaFieldId}: {
                 required: true
             },
@@ -202,7 +202,7 @@
         },
         messages: {
          <#list colList as c>
-		 <#if (c.isEditPage?? && c.isEditPage == "1")>
+		 <#if (c.isEditpage?? && c.isEditpage == "1")>
             ${c.javaFieldId}: {
                 required: I18n.system_please_input + "${c.comments}"
             },

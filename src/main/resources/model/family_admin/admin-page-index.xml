@@ -11,7 +11,7 @@
   	 ${r'<#import "/common/common.macro.ftl" as netCommon>'}
 	${r'<@netCommon.commonStyle />'}
     <!-- DataTables -->
-    <link rel="stylesheet" href="/jobadmin/adminlte/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="/adminlte/plugins/datatables/dataTables.bootstrap.css">
     <title>${functionName}管理</title>
 </head>
 <body class="hold-transition skin-blue sidebar-mini  ${r'<#if cookieMap?exists && "off" == cookieMap["xxljob_adminlte_settings"].value >sidebar-collapse</#if>'}">
@@ -101,7 +101,7 @@
             <div class="modal-body">
                 <form class="form-horizontal form" role="form">
                <#list colList as c>
-		          <#if (c.isEditPage?? && c.isEditPage == "1")>
+		          <#if (c.isEditpage?? && c.isEditpage == "1")>
                     <div class="form-group">
                         <label for="${c.javaFieldId}" class="col-sm-2 control-label">${c.comments}<font color="red">*</font></label>
                         <div class="col-sm-10"><input type="text" class="form-control" name="${c.javaFieldId}" placeholder="请输入..."
@@ -126,13 +126,13 @@
 
  ${r'<@netCommon.commonScript />'}
 <!-- DataTables -->
-<script src="/jobadmin/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/jobadmin/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="/jobadmin/plugins/jquery/jquery.validate.min.js"></script>
+<script src="/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/plugins/jquery/jquery.validate.min.js"></script>
 <!-- moment -->
-<script src="/jobadmin/adminlte/plugins/daterangepicker/moment.min.js"></script>
-<script src="/jobadmin/adminlte/plugins/jQuery/jquery-ui-1.9.2.custom.min.js"></script>//拖拽
-<script src="/jobadmin/js/${className}.index.js"></script>
+<script src="/adminlte/plugins/daterangepicker/moment.min.js"></script>
+<script src="/adminlte/plugins/jQuery/jquery-ui-1.9.2.custom.min.js"></script>//拖拽
+<script src="/js/${className}.index.js"></script>
 
 <script>
     $(document).ready(function () {
