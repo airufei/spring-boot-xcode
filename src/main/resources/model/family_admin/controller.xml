@@ -15,7 +15,7 @@ import ${packageName}.util.StringUtil;
 import ${packageName}.common.RetData;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import ${packageName}.${javaModuleName}.entity.${ClassName};
