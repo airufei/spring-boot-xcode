@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>mapper</name>
+    <filePath>src/${packageName}/${javaModuleName}/dao</filePath>
+    <fileName>${ClassName}Dao.xml</fileName>
+    <content><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.${javaModuleName}.dao.${ClassName}Dao">
+
+    <#-- 输出字段列 -->
+	<sql id="${className}Columns">
+		<#assign columnField>
+			<#list colList as c>
+			<#if c.isList?? && c.isList == "1">
+		    a.${c.name} AS "${c.javaFieldId}",
+		     </#if>
+			</#list>
+			<#list colList as c>
+				<#if c.showType?? && c.showType == "userselect">
+					<#list c.javaFieldAttrs as a>
+		u${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+					</#list>
+				<#elseif c.showType?? && c.showType == "officeselect">
+					<#list c.javaFieldAttrs as a>
+		o${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+					</#list>
+				<#elseif c.showType?? && c.showType == "areaselect">
+					<#list c.javaFieldAttrs as a>
+		a${c_index + 1}.${a[1]} AS "${c.simpleJavaField}.${a[0]}",
+					</#list>
+				</#if>
+			</#list>
+		</#assign>
+${columnField?substring(0, columnField?last_index_of(","))}
+	</sql>
+
+
+	<select id="get${ClassName}ById" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}">
+		SELECT
+			<include refid="${className}Columns"/>
+		FROM ${table.name} a
+		WHERE a.id = ${"#"}{id}
+	</select>
+
+     <!--查询分页总数量-->
+	<select id="getTotalCount" resultType="Integer" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+		SELECT
+			count(*) as count
+		FROM ${table.name} a
+		<!--基础查询条件-->
+		<include refid="${className}Where"/>
+		<!--分页列表扩展查询条件-->
+		<include refid="${className}PageWhere"/>
+	</select>
+
+    <!--查询分页的集合数据-->
+	<select id="getList" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+		SELECT
+			<include refid="${className}Columns"/>
+		FROM
+		(SELECT id from  ${table.name} a
+        <!--基础查询条件-->
+		<include refid="${className}Where"/>
+		<!--分页列表扩展查询条件-->
+		<include refid="${className}PageWhere"/>
+		<#list colList as c>
+       <#if c.isSort?? && c.isSort=="1">
+		 <choose>
+			<otherwise>
+                 ORDER BY ${c.name} desc
+			</otherwise>
+		</choose>
+	 </#if>
+     </#list>
+     limit ${"#"}{startIndex},${"#"}{pageSize}
+		 ) b inner join
+		${table.name} a  on b.id=a.id
+	 <#list colList as c>
+       <#if c.isSort?? && c.isSort=="1">
+		 <choose>
+			<otherwise>
+                 ORDER BY ${c.name} desc
+			</otherwise>
+		</choose>
+	 </#if>
+     </#list>
+	</select>
+
+   <!--查询不分页的集合数据-->
+    <select id="get${ClassName}List" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+		SELECT
+			<include refid="${className}Columns"/>
+		FROM (SELECT id from  ${table.name} a
+        <!--基础查询条件-->
+		<include refid="${className}Where"/>
+		) b  inner join ${table.name} a  on b.id=a.id
+	<#list colList as c>
+     </#list>
+	</select>
+
+   <!--查询单条数据-->
+  <select id="getSingle${ClassName}" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+	SELECT
+		<include refid="${className}Columns"/>
+		FROM
+		(SELECT id from  ${table.name} a
+        <!--基础查询条件-->
+		<include refid="${className}Where"/>
+		 limit 1
+		 ) b inner join
+		${table.name} a  on b.id=a.id
+	</select>
+
+	 <!--基础查询条件-->
+    <sql id="${className}Where">
+    		<where>
+    		<if test="id != null">
+               and  a.id = ${"#"}{id}
+            </if>
+			<#list colList as c>
+				<#if c.isQuery?? && c.isQuery == "1">
+					<#if c.queryType ?? && c.queryType == 'between'>
+			<if test="begin${c.simpleJavaField?cap_first} != null and end${c.simpleJavaField?cap_first} != null <#if c.simpleJavaField != c.javaFieldId>and begin${c.javaFieldId?cap_first} != null and end${c.javaFieldId?cap_first} != null </#if>and begin${c.javaFieldId?cap_first} != '' and end${c.javaFieldId?cap_first} != ''">
+					<#else>
+			<if test="${c.simpleJavaField} != null<#if c.simpleJavaField != c.javaFieldId> and ${c.javaFieldId} != null</#if> and ${c.javaFieldId} != ''">
+					</#if>
+					<#if c.queryType ?? && c.queryType == 'between'>
+				AND a.${c.name} BETWEEN ${"#"}{begin${c.simpleJavaField?cap_first}} AND ${"#"}{end${c.simpleJavaField?cap_first}}
+					<#elseif c.queryType ?? && c.queryType == 'like'>
+				AND a.${c.name} LIKE
+					'%'+${"#"}{${c.javaFieldId}}+'%'
+					<#elseif c.queryType ?? && c.queryType == 'left_like'>
+				AND a.${c.name} LIKE
+				  '%'+${"#"}{${c.javaFieldId}}
+				AND a.${c.name} LIKE
+					${"#"}{${c.javaFieldId}}+'%'
+					<#else>
+				AND a.${c.name} ${c.queryType} ${"#"}{${c.javaFieldId}}
+					</#if>
+			</if>
+				</#if>
+			</#list>
+			 <if test="flag != null">
+               and  a.flag = ${"#"}{flag}
+            </if>
+		</where>
+    </sql>
+     <!--分页列表扩展查询条件-->
+    <sql id="${className}PageWhere">
+
+     </sql>
+</mapper>]]>
+    </content>
+</template>

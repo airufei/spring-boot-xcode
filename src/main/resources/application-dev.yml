@@ -1,7 +1,7 @@
 #不用配置中心的时候可以使用这个文件读取本地配置文件
 # ==Tomcat配置==#不用配置中心的时候可以使用这个文件读取本地配置文件
 server:
-  port: 8093
+  port: 8094
   max-http-header-size: 50MB
   tomcat:
     max-connections: 20000 # 最大连接数 表示有多少个socket连接到tomcat上 NIO模式下默认是10000
@@ -38,9 +38,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 测试库
-    url: jdbc:mysql://192.168.1.1:3306/xcode?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://192.168.1.56:3306/xcode?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
-    password: root
+    password: hiscene_db
     initialSize: 10 #连接池初始化大小
     minIdle: 5 #连接池最小值
     maxActive: 1000 #连接池最大值
@@ -87,5 +87,5 @@ mybatis:
 xmf:
   xcode:
     login:
-      webRoot: http://localhost:8093
+      webRoot: http://localhost:{server.port}
     i18n:

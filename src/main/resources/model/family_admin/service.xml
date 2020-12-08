@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>service</name>
+    <filePath>src/${packageName}/${javaModuleName}/service</filePath>
+    <fileName>${ClassName}Service.java</fileName>
+    <content><![CDATA[
+
+package ${packageName}.${javaModuleName}.service;
+
+import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${packageName}.${javaModuleName}.entity.${ClassName};
+import ${packageName}.${javaModuleName}.request.${ClassName}Requst;
+import ${packageName}.common.Partion;
+/**
+ * ${ClassName}Service(${functionName}) 数据业务接口
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+public interface ${ClassName}Service  extends IService<${ClassName}>{
+
+      /**
+	   * 获取分页数据
+	   * @param ${className}Requst 请求参数
+	   * @return List
+	   */
+	   Partion<${ClassName}>  getList(${ClassName}Requst ${className}Requst);
+
+       /**
+         * 获取分页总记录数
+         * @author ${functionAuthor}
+         * @param ${className}Requst 请求参数
+         * @return Integer
+       */
+	   Integer getTotalCount(${ClassName}Requst ${className}Requst);
+
+	   /**
+	   * get${ClassName}List(获取${functionName} 不带分页数据-服务)
+       * @author ${functionAuthor}
+       * @param ${className}Requst 请求参数
+	   * @return List
+	   */
+	   List<${ClassName}>  get${ClassName}List(${ClassName}Requst ${className}Requst);
+
+
+      /**
+	   * get${ClassName}(获取${functionName}单条数据-服务)
+	   * @author ${functionAuthor}
+	   * @param ${className}Requst 请求参数
+	   * @return ${ClassName}
+	   */
+	   ${ClassName}  get${ClassName}(${ClassName}Requst ${className}Requst);
+
+	 /**
+	 * 根据ID获取单条数据
+	 * @param id 主键ID
+	 * @return ${ClassName}
+	 */
+	 ${ClassName} get${ClassName}ById (long id);
+
+    /**
+     * 保存或者更新数据数据-带事务
+     * @param ${className}  保存或者更新参数
+     * @author ${functionAuthor}
+     * @return ${ClassName}
+     * @throws Exception 异常信息
+     */
+     ${ClassName} saveOrUpdateData(${ClassName} ${className}) throws Exception;
+
+}]]>
+    </content>
+</template>

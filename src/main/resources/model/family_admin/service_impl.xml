@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>service</name>
+    <filePath>src/${packageName}/${javaModuleName}/service/impl</filePath>
+    <fileName>${ClassName}ServiceImpl.java</fileName>
+    <content><![CDATA[
+
+package ${packageName}.${javaModuleName}.service.impl;
+
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${packageName}.${javaModuleName}.dao.${ClassName}Dao;
+import ${packageName}.${javaModuleName}.entity.${ClassName};
+import ${packageName}.${javaModuleName}.request.${ClassName}Requst;
+import ${packageName}.${javaModuleName}.service.${ClassName}Service;
+import ${packageName}.common.Partion;
+/**
+ * ${ClassName}ServiceImpl(${functionName}) 数据业务接口实现
+ * @author ${functionAuthor}
+ * service 层的异常应该统一捕获进行处理，这样业务代码更加清晰
+ * @version ${functionVersion}
+ */
+@Service
+@Slf4j
+public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Dao, ${ClassName}> implements ${ClassName}Service  {
+
+	@Autowired
+	private ${ClassName}Dao ${className}dao;
+
+      /**
+	   * getList(获取${functionName}带分页数据-服务)
+       * @author ${functionAuthor}
+       * @param ${className}Requst 请求参数
+	   * @return List
+	   */
+	   @Override
+	   public Partion<${ClassName}>  getList(${ClassName}Requst ${className}Requst)
+	   {
+         if(${className}Requst==null)
+          {
+             return null;
+          }
+          Integer totalCount =${className}dao.getTotalCount(${className}Requst);
+          List<${ClassName}> list=null;
+          if (totalCount == null) {
+             totalCount = 0;
+          }
+          if(totalCount>0)
+          {
+             list= ${className}dao.getList(${className}Requst);
+          }
+          Partion<${ClassName}> pt = Partion.getPagePartion(${className}Requst, list, totalCount);
+		  log.info("getList(获取${functionName}带分页数据-服务) 结束 totalCount={}",totalCount);
+		  return pt;
+	   }
+
+	 /**
+	 * 获取分页总记录数
+	 * @author ${functionAuthor}
+	 * @param ${className}Requst 请求参数
+	 * @return Integer
+	 */
+	  @Override
+	 public Integer getTotalCount(${ClassName}Requst ${className}Requst)
+	 {
+	     if(${className}Requst==null)
+          {
+             return null;
+          }
+          return ${className}dao.getTotalCount(${className}Requst);
+	  }
+
+	   /**
+	   * get${ClassName}List(获取${functionName} 不带分页数据-服务)
+       * @author ${functionAuthor}
+       * @param ${className}Requst 请求参数
+	   * @return List
+	   */
+	    @Override
+	   public List<${ClassName}>  get${ClassName}List(${ClassName}Requst ${className}Requst)
+	   {
+	       List<${ClassName}> list;
+          if(${className}Requst==null)
+          {
+             return null;
+          }
+	      list=${className}dao.get${ClassName}List(${className}Requst);
+	      return list;
+	   }
+
+      /**
+	   * get${ClassName}(获取${functionName}单条数据-服务)
+	   * @author ${functionAuthor}
+	   * @param ${className}Requst 请求参数
+	   * @return ${ClassName}
+	   */
+	    @Override
+	   public ${ClassName}  get${ClassName}(${ClassName}Requst ${className}Requst)
+	   {
+           if(${className}Requst==null)
+           {
+             return null;
+           }
+	       return ${className}dao.getSingle${ClassName}(${className}Requst);
+	   }
+
+     /**
+	  * 根据ID获取单条数据
+	  * @param id 主键ID
+	  * @return Do
+	  */
+	  @Override
+	 public ${ClassName} get${ClassName}ById (long id)
+	   {
+	      if(id<0)
+           {
+              return null;
+           }
+          return ${className}dao.get${ClassName}ById(id);
+	   }
+
+    /**
+     * 保存或者更新数据数据-带事务
+     * @param ${className} 保存数据
+     * @author ${functionAuthor}
+     * @return ${ClassName}
+     * @throws Exception 异常
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ, timeout = 30, rollbackFor = Exception.class)
+    public ${ClassName} saveOrUpdateData(${ClassName} ${className}) throws Exception {
+        Long id=${className}.getId();
+        if(id!=null)
+        {
+           ${ClassName} retDo= get${ClassName}ById(id);
+           if(retDo==null)
+           {
+              throw new RuntimeException("更新ID数据错误");
+           }
+        }
+        boolean b = this.saveOrUpdate(${className});
+        if (!b) {
+            ${className} = null;
+            throw new RuntimeException("数据未执行更新操作");
+        }
+        return ${className};
+    }
+}]]>
+    </content>
+</template>

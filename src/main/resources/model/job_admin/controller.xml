@@ -173,7 +173,6 @@ public class ${ClassName}Controller {
             returnT.setCode(ReturnT.SUCCESS_CODE);
             returnT.setMsg("成功");
         } catch (Exception e) {
-
             String msg="save:(保存${functionName}数据接口) error===>" + StringUtil.getExceptionMsg(e);
             logger.error(msg);
             commonService.sendDingMessage("save", parms, JSON.toJSONString(returnT), msg, this.getClass());

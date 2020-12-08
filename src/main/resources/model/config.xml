@@ -28,6 +28,17 @@
 			<template>common/api-helper-service.xml</template>
 		</category>
 
+		<category dictKey="family_admin" dictValue="family_admin-自给数据">
+			<template>family_admin/controller.xml</template>
+			<template>family_admin/service.xml</template>
+			<template>family_admin/dao.xml</template>
+			<template>family_admin/entity.xml</template>
+			<template>family_admin/request_entity.xml</template>
+			<template>family_admin/mapper.xml</template>
+			<template>family_admin/service_impl.xml</template>
+			<template>family_admin/admin-page-index.xml</template>
+			<template>family_admin/admin-page-index-js.xml</template>
+		</category>
 		<category dictKey="springcloud_open" dictValue="springcloud-open-接口版">
 			<template>springcloud_open/controller.xml</template>
 			<template>common/dao.xml</template>

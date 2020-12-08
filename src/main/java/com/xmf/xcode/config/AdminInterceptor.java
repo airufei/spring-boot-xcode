@@ -85,7 +85,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
      */
     public String getWebRootUrl() {
         if (webroot==null) {
-            return "http://localhost:8093";
+            return "http://localhost:8094";
         }
         return webroot;
     }
