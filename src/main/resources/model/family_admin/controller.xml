@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import ${packageName}.common.Partion;
 import ${packageName}.util.StringUtil;
+import ${packageName}.util.UserOperatorAuthCheckUtil;
 import ${packageName}.common.RetData;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,14 +79,39 @@ public class ${ClassName}Controller  {
      */
     @RequestMapping("saveOrUpdate")
     @ResponseBody
-    public RetData<${ClassName}> saveOrUpdate(${ClassName} ${className}){
+    public RetData<${ClassName}> saveOrUpdate(HttpServletRequest request,${ClassName} ${className}){
         RetData<${ClassName}> retData = RetData.fail();
         log.info("save (保存${functionName} server-服务) 开始 ${className}={}", ${className});
         if (${className} == null) {
             return retData;
         }
+        User user = (User)request.getSession().getAttribute("user");
+        if(user==null)
+        {
+            return RetData.fail("获取用户信息失败");
+        }
+        Long userId=user.getId();
+        String roleCode=user.getRoleCode();
+        Long id=${className}.getId();
         try {
-            ${className}= ${className}Service.saveOrUpdateData(${className});
+        if(id!=null)
+        {
+           ${ClassName} retDo=${className}Service.get${ClassName}ById(id);
+           if(retDo==null)
+           {
+              return RetData.fail("更新ID数据错误");
+           }
+            Long dbUserId=retDo.getOperatorId();
+           boolean ret= UserOperatorAuthCheckUtil.checkUpdateAndDelete(dbUserId,userId,roleCode);
+           if(!ret)
+           {
+             return RetData.fail("没有删除权限，只能创建人或者管理人删除");
+           }
+          }
+             ${className}.setOperatorId(userId);
+             ${className}.setOperatorName(user.getUsername());
+             ${className}.setRoleCode(roleCode);
+             ${className}= ${className}Service.saveOrUpdateData(${className});
         } catch (Exception e) {
             log.error(StringUtil.getExceptionMsg(e));
             retData = RetData.fail("保持数据失败，请稍后");
@@ -154,9 +180,29 @@ public class ${ClassName}Controller  {
 	    log.info("delete(逻辑删除${functionName}) 开始 id={}", id);
         boolean isSuccess = false;
         if (id==null||id<0) {
+             retData = RetData.fail("参数错误");
             return retData;
         }
+        User user = (User)request.getSession().getAttribute("user");
+          if(user==null)
+          {
+            return RetData.fail("获取用户信息失败");
+          }
+          Long userId=user.getId();
+          String roleCode=user.getRoleCode();
         try {
+          ${ClassName} ${className}= ${className}Service.get${ClassName}ById(id);
+          if(${className}==null)
+          {
+            retData = RetData.fail("数据不存在");
+            return retData;
+          }
+          Long dbUserId=${className}.getOperatorId();
+          boolean ret= UserOperatorAuthCheckUtil.checkUpdateAndDelete(dbUserId,userId,roleCode);
+          if(!ret)
+          {
+             return RetData.fail("没有删除权限，只能创建人或者管理人删除");
+          }
 	      isSuccess =${className}Service.removeById(id);
 	     } catch (Exception e) {
             log.error(StringUtil.getExceptionMsg(e));

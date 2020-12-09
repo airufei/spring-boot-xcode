@@ -346,7 +346,11 @@ public class CodeTableColumn extends BaseEntitys {
                 && !StringUtil.equals(getSimpleJavaField(), "updatedBy")
                 && !StringUtil.equals(getSimpleJavaField(), "status")
                 && !StringUtil.equals(getSimpleJavaField(), "createdTime")
+                && !StringUtil.equals(getSimpleJavaField(), "operatorName")
+                && !StringUtil.equals(getSimpleJavaField(), "operatorId")
+                && !StringUtil.equals(getSimpleJavaField(), "roleCode")
                 && !StringUtil.equals(getSimpleJavaField(), "flag");
+
     }
 
     /**
