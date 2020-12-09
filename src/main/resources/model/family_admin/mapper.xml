@@ -36,7 +36,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 	</sql>
 
 
-	<select id="get${ClassName}ById" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}">
+	<select id="get${ClassName}ById" resultType="${packageName}.${javaModuleName}.entity.${ClassName}">
 		SELECT
 			<include refid="${className}Columns"/>
 		FROM ${table.name} a
@@ -55,7 +55,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 	</select>
 
     <!--查询分页的集合数据-->
-	<select id="getList" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+	<select id="getList" resultType="${packageName}.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
 		SELECT
 			<include refid="${className}Columns"/>
 		FROM
@@ -88,7 +88,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 	</select>
 
    <!--查询不分页的集合数据-->
-    <select id="get${ClassName}List" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+    <select id="get${ClassName}List" resultType="${packageName}.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
 		SELECT
 			<include refid="${className}Columns"/>
 		FROM (SELECT id from  ${table.name} a
@@ -100,7 +100,7 @@ ${columnField?substring(0, columnField?last_index_of(","))}
 	</select>
 
    <!--查询单条数据-->
-  <select id="getSingle${ClassName}" resultType="${packageName}.service.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
+  <select id="getSingle${ClassName}" resultType="${packageName}.${javaModuleName}.entity.${ClassName}" parameterType="${packageName}.${javaModuleName}.request.${ClassName}Requst">
 	SELECT
 		<include refid="${className}Columns"/>
 		FROM
