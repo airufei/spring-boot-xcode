@@ -94,20 +94,6 @@ public class ${ClassName}Controller  {
         String roleCode=user.getRoleCode();
         Long id=${className}.getId();
         try {
-        if(id!=null)
-        {
-           ${ClassName} retDo=${className}Service.get${ClassName}ById(id);
-           if(retDo==null)
-           {
-              return RetData.fail("更新ID数据错误");
-           }
-            Long dbUserId=retDo.getOperatorId();
-           boolean ret= UserOperatorAuthCheckUtil.checkUpdateAndDelete(dbUserId,userId,roleCode);
-           if(!ret)
-           {
-             return RetData.fail("没有删除权限，只能创建人或者管理人删除");
-           }
-          }
              ${className}.setOperatorId(userId);
              ${className}.setOperatorName(user.getUsername());
              ${className}.setRoleCode(roleCode);
@@ -183,26 +169,7 @@ public class ${ClassName}Controller  {
              retData = RetData.fail("参数错误");
             return retData;
         }
-        User user = (User)request.getSession().getAttribute("user");
-          if(user==null)
-          {
-            return RetData.fail("获取用户信息失败");
-          }
-          Long userId=user.getId();
-          String roleCode=user.getRoleCode();
         try {
-          ${ClassName} ${className}= ${className}Service.get${ClassName}ById(id);
-          if(${className}==null)
-          {
-            retData = RetData.fail("数据不存在");
-            return retData;
-          }
-          Long dbUserId=${className}.getOperatorId();
-          boolean ret= UserOperatorAuthCheckUtil.checkUpdateAndDelete(dbUserId,userId,roleCode);
-          if(!ret)
-          {
-             return RetData.fail("没有删除权限，只能创建人或者管理人删除");
-          }
 	      isSuccess =${className}Service.removeById(id);
 	     } catch (Exception e) {
             log.error(StringUtil.getExceptionMsg(e));
