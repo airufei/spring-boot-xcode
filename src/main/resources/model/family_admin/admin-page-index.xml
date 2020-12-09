@@ -25,7 +25,7 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>${functionName}</h1>
+            <h2>${functionName}管理</h1>
         </section>
 
         <!-- Main content -->
@@ -88,7 +88,7 @@
                 <table width="99%">
                     <tr>
                         <td style="width: 15%">
-                            <h4 class="modal-title">保存${functionName}</h4>
+                            <h4 class="modal-title">${functionName}</h4>
                         </td>
                         <td style="width: 77%">
                         </td>
