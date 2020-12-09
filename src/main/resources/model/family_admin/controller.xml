@@ -28,7 +28,7 @@ import ${packageName}.${javaModuleName}.service.${ClassName}Service;
  * @version ${functionVersion}
  */
 @Controller
-@RequestMapping("/${subModuleName}")
+@RequestMapping("/fm/${subModuleName}")
 @Slf4j
 public class ${ClassName}Controller  {
 

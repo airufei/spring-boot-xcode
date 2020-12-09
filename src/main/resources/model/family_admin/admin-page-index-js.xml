@@ -12,7 +12,7 @@
         "processing": true,
         "serverSide": true,
         "ajax": {
-            url: base_url + "/${subModuleName}/getList",
+            url: base_url + "/fm/${subModuleName}/getList",
             type: "post",
             data: function (d) {
                 var obj = {};
@@ -100,7 +100,7 @@
         var type = $(this).attr("_type");
         if ("${className}_del" == type) {
             typeName = I18n.system_opt_del;
-            url = base_url + "/${subModuleName}/delete";
+            url = base_url + "/fm/${subModuleName}/delete";
             needFresh = true;
         } else {
             return;
@@ -220,7 +220,7 @@
             element.parent('div').append(error);
         },
         submitHandler: function (form) {
-            $.post(base_url + "/${subModuleName}/saveOrUpdate", $("#addModal .form").serialize(), function (data, status) {
+            $.post(base_url + "/fm/${subModuleName}/saveOrUpdate", $("#addModal .form").serialize(), function (data, status) {
                 if (data.code ==200) {
                     $('#addModal').modal('hide');
                     layer.open({
