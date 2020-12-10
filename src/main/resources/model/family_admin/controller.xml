@@ -12,8 +12,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import ${packageName}.common.Partion;
 import ${packageName}.util.StringUtil;
-import ${packageName}.util.UserOperatorAuthCheckUtil;
 import ${packageName}.common.RetData;
+import ${packageName}.common.ResultCode;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +22,9 @@ import org.springframework.stereotype.Controller;
 import ${packageName}.${javaModuleName}.entity.${ClassName};
 import ${packageName}.${javaModuleName}.request.${ClassName}Requst;
 import ${packageName}.${javaModuleName}.service.${ClassName}Service;
+import ${packageName}.${javaModuleName}.manager.${ClassName}Manager;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * ${ClassName}Service(${functionName})
  * @author ${functionAuthor}
@@ -35,6 +38,9 @@ public class ${ClassName}Controller  {
 
 	@Autowired
 	private ${ClassName}Service ${className}Service;
+	@Autowired
+	private ${ClassName}Manager ${className}Manager;
+
 
     @RequestMapping
     public String index() {
@@ -85,19 +91,26 @@ public class ${ClassName}Controller  {
         if (${className} == null) {
             return retData;
         }
-        User user = (User)request.getSession().getAttribute("user");
-        if(user==null)
-        {
-            return RetData.fail("获取用户信息失败");
-        }
-        Long userId=user.getId();
-        String roleCode=user.getRoleCode();
-        Long id=${className}.getId();
+        //参数验证
+	    retData=${className}Manager.saveParamsVaild(${className});
+	    int code = retData.getCode();
+	    String message = retData.getMessage();
+	    if(code!=ResultCode.SUCCESS)
+	    {
+	       return RetData.fail(message);
+	    }
+	    //操作权限验证
+        Long id=  ${className}.getId();
+        RetData<${ClassName}> authData =  ${className}Manager.saveOrDeleteAuthVaild(request,id,${className});
+        code = authData.getCode();
+	    message = authData.getMessage();
+	    if(code!=ResultCode.SUCCESS)
+	    {
+	        return RetData.fail(message);
+	    }
         try {
-             ${className}.setOperatorId(userId);
-             ${className}.setOperatorName(user.getUsername());
-             ${className}.setRoleCode(roleCode);
-             ${className}= ${className}Service.saveOrUpdateData(${className});
+           //数据保存
+           ${className}= ${className}Service.saveOrUpdateData(${className});
         } catch (Exception e) {
             log.error(StringUtil.getExceptionMsg(e));
             retData = RetData.fail("保持数据失败，请稍后");
@@ -160,7 +173,7 @@ public class ${ClassName}Controller  {
 	 */
      @RequestMapping("delete")
      @ResponseBody
-	 public RetData<String> delete(Long id)
+	 public RetData<String> delete(HttpServletRequest request,Long id)
 	 {
 	    RetData<String> retData = RetData.fail();
 	    log.info("delete(逻辑删除${functionName}) 开始 id={}", id);
@@ -169,6 +182,13 @@ public class ${ClassName}Controller  {
              retData = RetData.fail("参数错误");
             return retData;
         }
+        RetData<${ClassName}> authData =  ${className}Manager.saveOrDeleteAuthVaild(request,id,null);
+        int code = authData.getCode();
+	    String message = authData.getMessage();
+	    if(code!=ResultCode.SUCCESS)
+	    {
+	        return RetData.fail(message);
+	    }
         try {
 	      isSuccess =${className}Service.removeById(id);
 	     } catch (Exception e) {

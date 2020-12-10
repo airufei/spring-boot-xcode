@@ -181,7 +181,7 @@
 
     // 添加页面按钮事件
     $(".add").click(function () {
-         $("#addModal .form input[name='id']").val(-1);
+         $("#addModal .form input[name='id']").val(null);
          $("#addModal .form")[0].reset();
          edit(this);
     });

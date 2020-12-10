@@ -30,6 +30,7 @@
 
 		<category dictKey="family_admin" dictValue="family_admin-自给数据">
 			<template>family_admin/controller.xml</template>
+			<template>family_admin/manager.xml</template>
 			<template>family_admin/service.xml</template>
 			<template>family_admin/dao.xml</template>
 			<template>family_admin/entity.xml</template>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>service</name>
+    <filePath>src/${packageName}/${javaModuleName}/manager</filePath>
+    <fileName>${ClassName}Manager.java</fileName>
+    <content><![CDATA[
+
+package ${packageName}.${javaModuleName}.manager;
+
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${packageName}.${javaModuleName}.entity.${ClassName};
+import ${packageName}.${javaModuleName}.service.${ClassName}Service;
+import ${packageName}.util.UserOperatorAuthCheckUtil;
+import javax.servlet.http.HttpServletRequest;
+import ${packageName}.user.model.User;
+import ${packageName}.common.RetData;
+/**
+ * ${ClassName}Manager(${functionName}) 业务逻辑层
+ * @author ${functionAuthor}
+ * Manager 层的异常应该统一捕获进行处理，这样业务代码更加清晰
+ * @version ${functionVersion}
+ */
+@Service
+@Slf4j
+public class ${ClassName}Manager {
+
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+
+      /**
+	   * saveParamsVaild(数据保持参数验证-字段验证需要自己实现)
+       * @author ${functionAuthor}
+       * @param ${className} 请求参数
+       * @return RetData
+	   */
+	  public  RetData<${ClassName}> saveParamsVaild(${ClassName} ${className})
+	   {
+          RetData<${ClassName}> retData =RetData.fail();
+          if(${className}==null)
+          {
+            return retData;
+          }
+	      //字段验证需要自己实现
+          return RetData.success();
+	   }
+
+	   /**
+	   * saveOrDeleteAuthVaild(数据更新，删除权限验证)
+       * @author ${functionAuthor}
+       * @param  ${className} 请求参数
+       * @return RetData
+	   */
+	  public  RetData<${ClassName}> saveOrDeleteAuthVaild(HttpServletRequest request,Long id,${ClassName} ${className})
+	   {
+          RetData<${ClassName}> retData =RetData.fail();
+          User user = (User)request.getSession().getAttribute("user");
+          if(user==null)
+          {
+            return RetData.fail("获取用户信息失败");
+          }
+          Long userId=user.getId();
+          String roleCode=user.getRoleCode();
+          if(${className}!=null)
+          {
+              ${className}.setOperatorId(userId);
+              ${className}.setOperatorName(user.getUsername());
+              ${className}.setRoleCode(roleCode);
+          }
+          if(id!=null)
+          {
+               ${ClassName} retDo=${className}Service.get${ClassName}ById(id);
+               if(retDo==null)
+               {
+                  return RetData.fail("更新ID数据错误");
+               }
+               Long dbUserId=retDo.getOperatorId();
+               boolean ret= UserOperatorAuthCheckUtil.checkUpdateAndDelete(dbUserId,userId,roleCode);
+               if(ret)
+               {
+                  retData=RetData.success();
+               }else
+               {
+                   retData=RetData.fail("没有操作权限，只能创建人或者管理员可以操作此数据");
+               }
+          }
+          return retData;
+	   }
+
+}]]>
+    </content>
+</template>
