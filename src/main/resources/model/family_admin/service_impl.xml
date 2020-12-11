@@ -135,6 +135,11 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Dao, ${Clas
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ, timeout = 30, rollbackFor = Exception.class)
     public ${ClassName} saveOrUpdateData(${ClassName} ${className}) throws Exception {
+        Long id = ${className}.getId();
+        if (id == null) {
+            ${className}.setCreateTime(new Date());
+        }
+        ${className}.setUpdateTime(new Date());
         boolean b = this.saveOrUpdate(${className});
         if (!b) {
             ${className} = null;
