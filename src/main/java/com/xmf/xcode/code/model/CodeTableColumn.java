@@ -245,7 +245,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取列名和说明
      *
-     * @return
+     *
      */
     public String getNameAndComments() {
         return getName() + (comments == null ? "" : "  :  " + comments);
@@ -254,7 +254,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取字符串长度
      *
-     * @return
+     *
      */
     public String getDataLength() {
         String[] ss = StringUtil.split(
@@ -269,7 +269,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取简写Java类型
      *
-     * @return
+     *
      */
     public String getSimpleJavaType() {
         String simpleJavaType=StringUtil.indexOf(getJavaType(), ".") != -1 ? StringUtil
@@ -285,7 +285,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取简写Java字段
      *
-     * @return
+     *
      */
     public String getSimpleJavaField() {
         return StringUtil.substringBefore(getJavaField(), ".");
@@ -294,7 +294,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取Java字段，如果是对象，则获取对象.附加属性1
      *
-     * @return
+     *
      */
     public String getJavaFieldId() {
         return StringUtil.substringBefore(getJavaField(), "|");
@@ -303,7 +303,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取Java字段，如果是对象，则获取对象.附加属性2
      *
-     * @return
+     *
      */
     public String getJavaFieldName() {
         String[][] ss = getJavaFieldAttrs();
@@ -313,7 +313,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 获取Java字段，所有属性名
      *
-     * @return
+     *
      */
     public String[][] getJavaFieldAttrs() {
         String[] ss = StringUtil.split(
@@ -332,7 +332,7 @@ public class CodeTableColumn extends BaseEntitys {
     /**
      * 是否是基类字段
      *
-     * @return
+     *
      */
     public Boolean getIsNotBaseField() {
         return !StringUtil.equals(getSimpleJavaField(), "id")
@@ -346,17 +346,13 @@ public class CodeTableColumn extends BaseEntitys {
                 && !StringUtil.equals(getSimpleJavaField(), "updatedBy")
                 && !StringUtil.equals(getSimpleJavaField(), "status")
                 && !StringUtil.equals(getSimpleJavaField(), "createdTime")
-                && !StringUtil.equals(getSimpleJavaField(), "operatorName")
-                && !StringUtil.equals(getSimpleJavaField(), "operatorId")
-                && !StringUtil.equals(getSimpleJavaField(), "roleCode")
                 && !StringUtil.equals(getSimpleJavaField(), "flag");
-
     }
 
     /**
      * 是否Bo字段
      *
-     * @return
+     *
      */
     public Boolean getIsNotBoField() {
         return

@@ -2,9 +2,9 @@ package com.xmf.xcode.code.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xmf.xcode.common.Partion;
 import com.xmf.xcode.code.dao.CodeTableColumnDao;
 import com.xmf.xcode.code.model.CodeTableColumn;
+import com.xmf.xcode.common.Partion;
 import com.xmf.xcode.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class CodeTableColumnService {
      * getList(获取表字段信息带分页数据-服务)
      *
      * @param json
-     * @return
+     * 
      * @author rufei.cn
      */
     public Partion getList(JSONObject json) {
@@ -59,7 +59,7 @@ public class CodeTableColumnService {
      * getCodeTableColumnList(获取表字段信息 不带分页数据-服务)
      *
      * @param codeTableColumn
-     * @return
+     * 
      * @author rufei.cn
      */
     public List<CodeTableColumn> getCodeTableColumnList(CodeTableColumn codeTableColumn) {
@@ -79,7 +79,7 @@ public class CodeTableColumnService {
      * save (保存表字段信息 数据-服务)
      *
      * @param codeTableColumn
-     * @return
+     * 
      * @author rufei.cn
      */
     public CodeTableColumn save(CodeTableColumn codeTableColumn) {
@@ -97,7 +97,7 @@ public class CodeTableColumnService {
      * getCodeTableColumn(获取表字段信息单条数据-服务)
      *
      * @param codeTableColumn
-     * @return
+     * 
      * @author rufei.cn
      */
     public CodeTableColumn getCodeTableColumn(CodeTableColumn codeTableColumn) {
@@ -114,7 +114,7 @@ public class CodeTableColumnService {
      * delete(逻辑删除表字段信息数据-服务)
      *
      * @param id
-     * @return
+     * 
      * @author rufei.cn
      */
     public boolean delete(Long id) {
@@ -137,7 +137,7 @@ public class CodeTableColumnService {
      * deleteTable(物理删除表字段信息数据-服务)
      *
      * @param id
-     * @return
+     * 
      * @author rufei.cn
      */
     public boolean deleteTable(String tableName) {
@@ -156,7 +156,7 @@ public class CodeTableColumnService {
      * deleteTable(物理删除表字段信息数据-服务)
      *
      * @param id
-     * @return
+     * 
      * @author rufei.cn
      */
     public boolean addTrainRecordBatch(List<CodeTableColumn> list) {
@@ -181,7 +181,7 @@ public class CodeTableColumnService {
      * 获取表字段信息 mysql
      *
      * @param tableName
-     * @return
+     * 
      */
     public List<CodeTableColumn> getTableColumnList(String tableName) {
         return codeTableColumnHelperService.getTableColumnList(tableName);

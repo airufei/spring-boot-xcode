@@ -1,24 +1,23 @@
 package com.xmf.xcode.code.service;
 
-import java.util.List;
-import java.util.Map;
-
-import com.xmf.xcode.code.model.GenTemplate;
-import com.xmf.xcode.common.Partion;
-import com.xmf.xcode.util.StringUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xmf.xcode.code.dao.CodeSchemeDao;
-import com.xmf.xcode.config.GenConfig;
-import com.xmf.xcode.util.GenUtils;
 import com.xmf.xcode.code.model.CodeScheme;
 import com.xmf.xcode.code.model.CodeTable;
 import com.xmf.xcode.code.model.CodeTableColumn;
+import com.xmf.xcode.code.model.GenTemplate;
+import com.xmf.xcode.common.Partion;
+import com.xmf.xcode.config.GenConfig;
+import com.xmf.xcode.util.GenUtils;
+import com.xmf.xcode.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.xmf.xcode.code.model.*;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service(代码生成方案)
@@ -46,7 +45,6 @@ public class CodeSchemeService {
      * getList(获取代码生成方案带分页数据-服务)
      *
      * @param json
-     * @return
      * @author rufei.cn
      */
     public Partion getList(JSONObject json) {
@@ -71,7 +69,6 @@ public class CodeSchemeService {
      * getCodeSchemeList(获取代码生成方案 不带分页数据-服务)
      *
      * @param codeScheme
-     * @return
      * @author rufei.cn
      */
     public List<CodeScheme> getCodeSchemeList(CodeScheme codeScheme) {
@@ -93,7 +90,6 @@ public class CodeSchemeService {
      * save (保存代码生成方案 数据-服务)
      *
      * @param codeScheme
-     * @return
      * @author rufei.cn
      */
     public CodeScheme save(CodeScheme codeScheme) {
@@ -103,19 +99,19 @@ public class CodeSchemeService {
             return codeScheme;
         }
         codeScheme = codeSchemeHelperService.save(codeScheme);
-        String gen =null;
+        String gen = null;
         if (codeScheme != null) {
-            gen=generateGen(codeScheme);//开始生成文件
+            gen = generateGen(codeScheme);//开始生成文件
         }
         if (StringUtil.isBlank(gen)) {
-            codeScheme=null;
+            codeScheme = null;
         }
         logger.info("save (保存代码生成方案 数据-服务) 结束");
         return codeScheme;
     }
 
 
-    private String generateGen(CodeScheme codeScheme) {
+    public String generateGen(CodeScheme codeScheme) {
 
         StringBuilder result = new StringBuilder();
         String functionNameSimple = codeScheme.getFunctionNameSimple();
@@ -126,15 +122,13 @@ public class CodeSchemeService {
         String tableName = codeScheme.getTableName();
         // 查询主表及字段列
         CodeTable GenTable = codeTableHelperService.getOneCodeTable(tableName);
-        if(GenTable==null)
-        {
+        if (GenTable == null) {
             return null;
         }
         CodeTableColumn col = new CodeTableColumn();
         col.setTableName(GenTable.getName());
         List<CodeTableColumn> list = codeTableColumnHelperService.getTableColumnList(tableName);
-        if(list==null)
-        {
+        if (list == null) {
             return null;
         }
         int queryFieldCount = codeTableColumnHelperService.getQueryFieldCount(col);
@@ -145,8 +139,7 @@ public class CodeSchemeService {
         // 获取模板列表
         List<GenTemplate> templateList = GenUtils.getTemplateList(config, codeScheme.getCategory(), false);
         List<GenTemplate> childTableTemplateList = GenUtils.getTemplateList(config, codeScheme.getCategory(), true);
-        if(templateList==null)
-        {
+        if (templateList == null) {
             return null;
         }
         // 生成主表模板代码
@@ -160,7 +153,7 @@ public class CodeSchemeService {
             }
             boolean res = true;
             String path = codeScheme.getPath();
-            path=GenUtils.getProjectPath(path);
+            path = GenUtils.getProjectPath(path);
             String moduleName = StringUtil.lowerCase(codeScheme.getModuleName());
             String str = GenUtils.generateToFile(tpl, model, res, path, moduleName);
             result.append(str);
@@ -172,7 +165,6 @@ public class CodeSchemeService {
      * getCodeScheme(获取代码生成方案单条数据-服务)
      *
      * @param codeScheme
-     * @return
      * @author rufei.cn
      */
     public CodeScheme getCodeScheme(CodeScheme codeScheme) {
@@ -192,7 +184,6 @@ public class CodeSchemeService {
      * delete(逻辑删除代码生成方案数据-服务)
      *
      * @param id
-     * @return
      * @author rufei.cn
      */
     public boolean delete(Long id) {

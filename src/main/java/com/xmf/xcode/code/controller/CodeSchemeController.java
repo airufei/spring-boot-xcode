@@ -1,33 +1,29 @@
 package com.xmf.xcode.code.controller;
 
-import java.io.File;
-import java.util.List;
-
-import com.xmf.xcode.common.Partion;
-import com.xmf.xcode.common.ResultCodeMessage;
-import com.xmf.xcode.common.ReturnT;
-import com.xmf.xcode.util.FileUtil;
-import com.xmf.xcode.util.StringUtil;
-import com.xmf.xcode.config.GenConfig;
-import com.xmf.xcode.util.GenUtils;
-import com.xmf.xcode.util.ZipUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xmf.xcode.code.model.CodeScheme;
 import com.xmf.xcode.code.model.GenCategory;
 import com.xmf.xcode.code.service.CodeSchemeService;
+import com.xmf.xcode.common.Partion;
+import com.xmf.xcode.common.ResultCodeMessage;
+import com.xmf.xcode.common.ReturnT;
+import com.xmf.xcode.config.GenConfig;
+import com.xmf.xcode.util.FileUtil;
+import com.xmf.xcode.util.GenUtils;
+import com.xmf.xcode.util.StringUtil;
+import com.xmf.xcode.util.ZipUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
-import com.xmf.xcode.code.model.*;
-import com.xmf.xcode.code.service.*;
+import java.io.File;
+import java.util.List;
 
 /**
  * CodeSchemeController(代码生成方案)
@@ -53,7 +49,6 @@ public class CodeSchemeController {
      * getList:(获取代码生成方案分页查询接口)
      *
      * @param request
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("pageList")
@@ -102,7 +97,6 @@ public class CodeSchemeController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("delete")
@@ -133,7 +127,6 @@ public class CodeSchemeController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("downloadCode")
@@ -150,25 +143,49 @@ public class CodeSchemeController {
         if (scheme == null) {
             return;
         }
+
         //获取文件路径
         String filePath = scheme.getPath();
         String os = System.getProperties().getProperty("os.name");
-        String zipPath = "/opt/xmf/down/";
-        List<File> zipList = FileUtil.getFileList(zipPath);
-        for (File file : zipList) {
-            if (file.exists()) {
-                file.delete();
+        String zipPath = "/opt/hiscene/down/";
+        logger.info("filePath={},zipPath={}============>", filePath, zipPath);
+        List<File> zipList = null;
+        try {
+            zipList = FileUtil.getFileNewList(zipPath);
+        } catch (Exception e) {
+            logger.info("删除原有的zip包===========>{}", e.getMessage());
+        }
+        if (zipList != null) {
+            for (File file : zipList) {
+                if (file.exists()) {
+                    file.delete();
+                }
             }
+        }
+        zipList = null;
+        List<File> list = FileUtil.getFileNewList(filePath);
+        if (list != null) {
+            for (File file : list) {
+                if (file.exists()) {
+                    file.delete();
+                }
+            }
+        }
+        list = null;
+        String generateGen = codeSchemeService.generateGen(scheme);
+        if (generateGen == null) {
+            return;
         }
         if (StringUtil.isNotBlank(os) && os.contains("Windows")) {
             filePath = FileUtil.getCurrentDriveName() + ":" + filePath;
             zipPath = FileUtil.getCurrentDriveName() + ":" + zipPath;
         }
-        List<File> list = FileUtil.getFileList(filePath);
+        list = FileUtil.getFileNewList(filePath);
         if (list == null || list.size() <= 0) {
+            logger.info("获取文件列表失败");
             return;
         }
-        ZipUtil.batchDownloadFiles(list, zipPath, response);
+        ZipUtil.batchDownloadFiles(list, zipPath, filePath, response);
         logger.info("download 结束============>");
     }
 
@@ -177,7 +194,6 @@ public class CodeSchemeController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping(value = "save")
@@ -212,7 +228,6 @@ public class CodeSchemeController {
      *
      * @param dbName
      * @param tableName
-     * @return
      */
     @RequestMapping(value = "getCodeModelList")
     @ResponseBody

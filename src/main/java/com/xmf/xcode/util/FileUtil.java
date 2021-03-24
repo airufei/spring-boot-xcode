@@ -46,16 +46,12 @@ public class FileUtil {
 
     }
 
-    /**
-     * getFileList:(获取文件夹下面的所有文件)
-     *
-     * @author rufei
-     * @param strPath
-     * @return
-     */
-    static List<File> filelist = new ArrayList<File>();
 
-    public static List<File> getFileList(String strPath) {
+    public static List<File> getFileNewList(String strPath) {
+        List<File> filelist = new ArrayList<File>();
+        return getFileList(strPath,filelist);
+    }
+    public static List<File> getFileList(String strPath,List<File> filelist) {
         if (strPath == null) {
             return filelist;
         }
@@ -68,7 +64,7 @@ public class FileUtil {
                     // 判断是文件还是文件夹
                     if (files[i].isDirectory()) {
                         // 获取文件绝对路径
-                        getFileList(files[i].getAbsolutePath());
+                        getFileList(files[i].getAbsolutePath(),filelist);
                     } else {
                         filelist.add(files[i]);
                     }
@@ -77,7 +73,6 @@ public class FileUtil {
             }
         } catch (Exception e) {
             logger.error("getFileList============ error====" + e);
-
         }
         return filelist;
     }

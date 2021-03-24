@@ -1,11 +1,11 @@
 package com.xmf.xcode.code.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
 import com.xmf.xcode.code.model.CodeTable;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据表信息DAO接口
@@ -20,7 +20,7 @@ public interface CodeTableDao {
      * 删除数据（逻辑删除）
      *
      * @param question
-     * @return
+     * 
      */
     public void delete(long id);
 
@@ -28,7 +28,7 @@ public interface CodeTableDao {
      * 单条数据增加
      *
      * @param codeTable
-     * @return
+     * 
      */
     public void add(CodeTable codeTable);
 
@@ -36,7 +36,7 @@ public interface CodeTableDao {
      * 批量数据增加
      *
      * @param codeTable
-     * @return
+     * 
      */
     public void addTrainRecordBatch(List<CodeTable> list);
 
@@ -44,7 +44,7 @@ public interface CodeTableDao {
      * 根据ID获取单条数据
      *
      * @param id
-     * @return
+     * 
      */
     public CodeTable getCodeTableById(long id);
 
@@ -52,7 +52,7 @@ public interface CodeTableDao {
      * 修改单条数据
      *
      * @param id
-     * @return
+     * 
      */
     public void updateById(CodeTable codeTable);
 
@@ -60,7 +60,7 @@ public interface CodeTableDao {
      * 获取分页数据
      *
      * @param map
-     * @return
+     * 
      */
     public List<CodeTable> getList(JSONObject map);
 
@@ -69,7 +69,7 @@ public interface CodeTableDao {
      * 获取集合数据，不带分页
      *
      * @param map
-     * @return
+     * 
      */
     public List<CodeTable> getCodeTableList(CodeTable codeTable);
 
@@ -77,7 +77,7 @@ public interface CodeTableDao {
      * 获取单条数据
      *
      * @param map
-     * @return
+     * 
      */
     public CodeTable getSignleCodeTable(CodeTable codeTable);
 
@@ -85,7 +85,7 @@ public interface CodeTableDao {
      * 获取分页记录总数
      *
      * @param map
-     * @return
+     * 
      */
     public Integer getTotalCount(Map map);
 
@@ -93,7 +93,7 @@ public interface CodeTableDao {
      * 获取当前数据库的所有表信息（不包含系统表）
      * @param dbName
      * @param tableName
-     * @return
+     * 
      */
     public List<CodeTable> getTableList(@Param("dbName") String dbName, @Param("tableName") String tableName);
 

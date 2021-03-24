@@ -2,10 +2,10 @@ package com.xmf.xcode.code.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xmf.xcode.common.Partion;
-import com.xmf.xcode.common.ResultCodeMessage;
 import com.xmf.xcode.code.model.CodeTableColumn;
 import com.xmf.xcode.code.service.CodeTableColumnService;
+import com.xmf.xcode.common.Partion;
+import com.xmf.xcode.common.ResultCodeMessage;
 import com.xmf.xcode.common.ReturnT;
 import com.xmf.xcode.util.StringUtil;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class CodeTableColumnController {
             model.addAttribute("errorMsg", "表名tableName不能为空");
             return "common/common-error";
         }
-        List<CodeTableColumn> list  = codeTableColumnService.getTableColumnList(tableName);
+        List<CodeTableColumn> list = codeTableColumnService.getTableColumnList(tableName);
         if (list == null || list.size() <= 0) {
             model.addAttribute("errorMsg", tableName + "表不存在");
             return "common/common-error";
@@ -55,7 +55,6 @@ public class CodeTableColumnController {
      * getList:(获取表字段信息分页查询接口)
      *
      * @param request
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("pageList")
@@ -104,7 +103,6 @@ public class CodeTableColumnController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("delete")
@@ -137,7 +135,6 @@ public class CodeTableColumnController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping(value = "saveList")
@@ -151,7 +148,7 @@ public class CodeTableColumnController {
             retData.setMsg(ResultCodeMessage.PARMS_ERROR_MESSAGE);
             return retData;
         }
-        boolean batch  = codeTableColumnService.addTrainRecordBatch(list);
+        boolean batch = codeTableColumnService.addTrainRecordBatch(list);
         if (!batch) {
             retData.setMsg("保存数据失败");
             return retData;

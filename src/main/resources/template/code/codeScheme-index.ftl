@@ -132,7 +132,7 @@
                     <div class="form-group">
                         <label for="packageName" class="col-sm-2 control-label">包路径<font color="red">*</font></label>
                         <div class="col-sm-10"><input type="text" class="form-control" name="packageName"
-                                                      placeholder="com.xmf"
+                                                      placeholder="com.hiscene"
                                                       maxlength="500"></div>
                     </div>
                     <div class="form-group">
@@ -178,7 +178,7 @@
                     <div class="form-group">
                         <label for="remark" class="col-sm-2 control-label">代码路径<font color="red">*</font></label>
                         <div class="col-sm-10"><input type="text" class="form-control" name="path"
-                                                      value="/opt/xmf/code" placeholder="/opt/xmf/code"
+                                                      value="/opt/hiscene/code" placeholder="/opt/hiscene/code"
                                                       maxlength="255"></div>
                     </div>
                     <div class="form-group">
@@ -197,6 +197,8 @@
                                     data-dismiss="modal">${I18n.system_cancel}</button>
                             <input type="hidden" name="id">
                         </div>
+                        <br>
+                        <a href="http://106.58.211.47:8090/pages/viewpage.action?pageId=12722770" target="_blank">使用说明文档</a>
                     </div>
                 </form>
             </div>

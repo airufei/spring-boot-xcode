@@ -35,7 +35,6 @@ public class CodeTableColumnHelperService {
      * 获取分页总记录数
      *
      * @param map
-     * @return
      */
     public int getTotalCount(JSONObject map) {
         int resCount = 0;
@@ -71,7 +70,6 @@ public class CodeTableColumnHelperService {
      * 获取单条数据
      *
      * @param id
-     * @return
      */
     public CodeTableColumn getCodeTableColumnById(long id) {
         return codeTableColumnDao.getCodeTableColumnById(id);
@@ -81,7 +79,6 @@ public class CodeTableColumnHelperService {
      * 获取单条数据
      *
      * @param codeTableColumn
-     * @return
      * @author rufei.cn
      */
     public CodeTableColumn getSignleCodeTableColumn(CodeTableColumn codeTableColumn) {
@@ -92,8 +89,7 @@ public class CodeTableColumnHelperService {
      * getQueryFieldCount:(查询字段的个数)
      *
      * @param col
-     * @return
-     * @author rufei
+     * @author airufei
      */
     public int getQueryFieldCount(CodeTableColumn col) {
         return codeTableColumnDao.getQueryFieldCount(col);
@@ -103,8 +99,7 @@ public class CodeTableColumnHelperService {
      * getQueryFieldCount:(编辑页字段的个数)
      *
      * @param col
-     * @return
-     * @author rufei
+     * @author airufei
      */
     public int getEditFieldCount(CodeTableColumn col) {
         return codeTableColumnDao.getEditFieldCount(col);
@@ -114,7 +109,6 @@ public class CodeTableColumnHelperService {
      * 获取表字段信息 mysql
      *
      * @param tableName
-     * @return
      */
     public List<CodeTableColumn> getTableColumnList(String tableName) {
         CodeTableColumn column = new CodeTableColumn();
@@ -135,7 +129,7 @@ public class CodeTableColumnHelperService {
                 item.setTableName(table.getName());
             }
             String name = item.getName();
-            if ("Id".equals(name) || "ID".equals(name)|| "id".equals(name)) {
+            if ("Id".equals(name) || "ID".equals(name) || "id".equals(name)) {
                 item.setIsPk("1");
             } else {
                 item.setIsPk("0");
@@ -165,7 +159,6 @@ public class CodeTableColumnHelperService {
      * 修改单条数据
      *
      * @param id
-     * @return
      */
     public void updateById(CodeTableColumn codeTableColumn) {
         codeTableColumnDao.updateById(codeTableColumn);

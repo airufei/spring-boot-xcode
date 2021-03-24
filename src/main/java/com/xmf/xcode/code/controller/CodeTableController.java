@@ -43,7 +43,6 @@ public class CodeTableController {
      * getList:(获取数据表信息分页查询接口)
      *
      * @param request
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("pageList")
@@ -89,7 +88,6 @@ public class CodeTableController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping("delete")
@@ -120,7 +118,6 @@ public class CodeTableController {
      *
      * @param dbName
      * @param tableName
-     * @return
      */
     @RequestMapping(value = "getTableList")
     @ResponseBody
@@ -136,13 +133,12 @@ public class CodeTableController {
      *
      * @param dbName
      * @param tableName
-     * @return
      */
     @RequestMapping(value = "getHasConfigTableList")
     @ResponseBody
     public List<CodeTable> getHasConfigTableList() {
         List<CodeTable> tableList = null;
-        CodeTable codeTable=new CodeTable();
+        CodeTable codeTable = new CodeTable();
         tableList = codeTableService.getCodeTableList(codeTable);
         return tableList;
     }
@@ -151,18 +147,15 @@ public class CodeTableController {
      * 获取单个表的数据
      *
      * @param tableName
-     * @return
      */
     @RequestMapping(value = "getOneTable")
     @ResponseBody
     public CodeTable getOneTable(String tableName) {
-        if(StringUtil.isBlank(tableName))
-        {
+        if (StringUtil.isBlank(tableName)) {
             return null;
         }
         CodeTable table = codeTableService.getOneCodeTable(tableName);
-        if(table!=null)
-        {
+        if (table != null) {
             return table;
         }
         List<CodeTable> tableList = codeTableService.getTableList(tableName);
@@ -170,9 +163,9 @@ public class CodeTableController {
             return table;
         }
         table = tableList.get(0);
-        if(table!=null&&StringUtil.isBlank(table.getClassName()))
-        {
-            table.setClassName(StringUtil.toCamelCase(table.getName()));
+        if (table != null && StringUtil.isBlank(table.getClassName())) {
+            String capitalize = StringUtil.capitalize(StringUtil.toCamelCase(table.getName()));
+            table.setClassName(capitalize);
         }
         return table;
     }
@@ -182,7 +175,6 @@ public class CodeTableController {
      *
      * @param request
      * @param parms
-     * @return
      * @author rufei.cn
      */
     @RequestMapping(value = "save")

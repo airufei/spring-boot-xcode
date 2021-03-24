@@ -17,6 +17,8 @@ public class CodeScheme extends BaseEntitys {
 
     private String category;        // 分类
 
+    private String basePackageName="com.hiscene"; // 基础库生成包路径
+
     private String packageName;        // 生成包路径
 
     private String moduleName;        // 生成模块名

@@ -29,7 +29,6 @@ public class CodeSchemeHelperService {
      * 获取分页总记录数
      *
      * @param map
-     * @return
      */
     public int getTotalCount(JSONObject map) {
         int resCount = 0;
@@ -70,7 +69,6 @@ public class CodeSchemeHelperService {
      * 获取单条数据
      *
      * @param id
-     * @return
      */
     public CodeScheme getCodeSchemeById(long id) {
         return codeSchemeDao.getCodeSchemeById(id);
@@ -80,7 +78,6 @@ public class CodeSchemeHelperService {
      * 获取单条数据
      *
      * @param codeScheme
-     * @return
      * @author rufei.cn
      */
     public CodeScheme getSignleCodeScheme(CodeScheme codeScheme) {
@@ -91,7 +88,6 @@ public class CodeSchemeHelperService {
      * 获取单条数据
      *
      * @param codeScheme
-     * @return
      * @author rufei.cn
      */
     public CodeScheme getSignleCodeSchemeByTableName(String tableName) {
@@ -104,7 +100,6 @@ public class CodeSchemeHelperService {
      * 修改单条数据
      *
      * @param id
-     * @return
      */
     public void updateById(CodeScheme codeScheme) {
         codeSchemeDao.updateById(codeScheme);

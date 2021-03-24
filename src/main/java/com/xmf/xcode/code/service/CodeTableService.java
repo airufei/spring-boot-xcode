@@ -2,12 +2,14 @@ package com.xmf.xcode.code.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xmf.xcode.code.dao.CodeTableColumnDao;
 import com.xmf.xcode.code.dao.CodeTableDao;
 import com.xmf.xcode.code.model.CodeTable;
 import com.xmf.xcode.common.Partion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,15 +28,22 @@ public class CodeTableService {
 
     @Autowired
     private CodeTableDao codeTableDao;
+
+    @Autowired
+    private CodeTableColumnDao codeTableColumnDao;
+
     @Autowired
     private CodeTableHelperService codeTableHelperService;
-    private String dbName= "xcode";
+
+
+    //数据库名称
+    @Value("${spring.datasource.name}")
+    private String dbName;
 
     /**
      * getList(获取数据表信息带分页数据-服务)
      *
      * @param json
-     * @return
      * @author rufei.cn
      */
     public Partion getList(JSONObject json) {
@@ -58,7 +67,6 @@ public class CodeTableService {
      * getCodeTableList(获取数据表信息 不带分页数据-服务)
      *
      * @param codeTable
-     * @return
      * @author rufei.cn
      */
     public List<CodeTable> getCodeTableList(CodeTable codeTable) {
@@ -78,7 +86,6 @@ public class CodeTableService {
      * save (保存数据表信息 数据-服务)
      *
      * @param codeTable
-     * @return
      * @author rufei.cn
      */
     public CodeTable save(CodeTable codeTable) {
@@ -97,7 +104,6 @@ public class CodeTableService {
      * getCodeTable(获取数据表信息单条数据-服务)
      *
      * @param codeTable
-     * @return
      * @author rufei.cn
      */
     public CodeTable getCodeTable(CodeTable codeTable) {
@@ -117,7 +123,6 @@ public class CodeTableService {
      * getCodeTable(获取数据表信息单条数据-服务)
      *
      * @param codeTable
-     * @return
      * @author rufei.cn
      */
     public CodeTable getOneCodeTable(String tableName) {
@@ -126,7 +131,7 @@ public class CodeTableService {
         if (tableName == null) {
             return ret;
         }
-        CodeTable codeTable=new CodeTable();
+        CodeTable codeTable = new CodeTable();
         codeTable.setName(tableName);
         ret = codeTableHelperService.getSignleCodeTable(codeTable);
         logger.info("getCodeTable(获取数据表信息单条数据-服务) 结束 ");
@@ -138,7 +143,6 @@ public class CodeTableService {
      *
      * @param dbName
      * @param tableName
-     * @return
      */
     public List<CodeTable> getTableList(String tableName) {
         List<CodeTable> tableList = codeTableDao.getTableList(dbName, tableName);
@@ -149,7 +153,6 @@ public class CodeTableService {
      * delete(逻辑删除数据表信息数据-服务)
      *
      * @param id
-     * @return
      * @author rufei.cn
      */
     public boolean delete(Long id) {
@@ -159,6 +162,9 @@ public class CodeTableService {
             return isSuccess;
         }
         CodeTable dt = codeTableHelperService.getCodeTableById(id);
+        //删除表字段
+        codeTableColumnDao.deleteTable(dt.getName());
+
         if (dt == null) {
             return isSuccess;
         }
